@@ -1,0 +1,42 @@
+.container {
+  margin-bottom: 20px;
+  padding: 12px;
+  border-radius: 3px;
+  background-color: #fff;
+
+  &:hover {
+    box-shadow: 0 4px 10px #c1c0c0;
+    cursor: pointer;
+  }
+}
+
+.title {
+  display: flex;
+  .left {
+    flex: 1;
+    color: #1677ff;
+  }
+
+  .right {
+    flex: 1;
+    text-align: right;
+    font-size: 12px;
+  }
+}
+
+.btn-wrapper {
+  display: flex;
+
+  .left {
+    flex: 1;
+  }
+
+  .right {
+    flex: 1;
+    text-align: right;
+
+    button {
+      color: #999;
+    }
+  }
+}
