@@ -1,47 +1,15 @@
-import React, { useState } from "react";
-import { Empty, Typography } from "antd";
+import React from "react";
+import { Empty, Spin, Typography } from "antd";
 import QuestionCard from "../../../components/QuestionCard";
 import Styles from "./index.module.scss";
-import { IQuestionCardInfo } from "../../../types";
 import Search from "../../../components/Search";
+import useLoadQuestionListData from "../../../hooks/useLoadQuestionListData";
 
 const { Title } = Typography;
 
 const List: React.FC = () => {
-  const [questionList, setQuestionList] = useState<IQuestionCardInfo[]>([
-    {
-      _id: "001",
-      title: "问卷1",
-      isPublished: false,
-      isStar: true,
-      answerCount: 10,
-      createAt: "2020-02-28",
-    },
-    {
-      _id: "002",
-      title: "问卷2",
-      isPublished: true,
-      isStar: true,
-      answerCount: 10,
-      createAt: "2020-02-28",
-    },
-    {
-      _id: "003",
-      title: "问卷3",
-      isPublished: false,
-      isStar: true,
-      answerCount: 10,
-      createAt: "2020-02-28",
-    },
-    {
-      _id: "004",
-      title: "问卷4",
-      isPublished: false,
-      isStar: true,
-      answerCount: 10,
-      createAt: "2020-02-28",
-    },
-  ]);
+  const { data = {}, loading } = useLoadQuestionListData();
+  const { list: questionList = [], total: totalNumber = 0 } = data;
 
   return (
     <>
@@ -54,9 +22,14 @@ const List: React.FC = () => {
         </div>
       </div>
       <div className={Styles.content}>
-        {!questionList.length && <Empty description="暂无数据" />}
+        {loading && (
+          <div className={Styles.spin}>
+            <Spin />
+          </div>
+        )}
+        {!loading && !questionList.length && <Empty description="暂无数据" />}
         {questionList.length > 0 &&
-          questionList.map((question) => {
+          questionList.map((question: any) => {
             const { _id } = question;
             return <QuestionCard key={_id} {...question} />;
           })}

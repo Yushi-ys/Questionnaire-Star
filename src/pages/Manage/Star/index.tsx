@@ -1,31 +1,15 @@
-import { useState } from "react";
-import { Typography, Empty } from "antd";
+import { Typography, Empty, Spin } from "antd";
 import Styles from "./index.module.scss";
-import { IQuestionCardInfo } from "../../../types";
 import QuestionCard from "../../../components/QuestionCard";
 import Search from "../../../components/Search";
+import useLoadQuestionListData from "../../../hooks/useLoadQuestionListData";
 
 const { Title } = Typography;
 
 const Star: React.FC = () => {
-  const [questionList, setQuestionList] = useState<IQuestionCardInfo[]>([
-    {
-      _id: "001",
-      title: "问卷1",
-      isPublished: false,
-      isStar: true,
-      answerCount: 10,
-      createAt: "2020-02-28",
-    },
-    {
-      _id: "004",
-      title: "问卷4",
-      isPublished: false,
-      isStar: true,
-      answerCount: 10,
-      createAt: "2020-02-28",
-    },
-  ]);
+  const { data = {}, loading } = useLoadQuestionListData({ isStar: true });
+  const { list: questionList = [], total: totalNumber = 0 } = data;
+
   return (
     <>
       <div className={Styles.header}>
@@ -37,9 +21,14 @@ const Star: React.FC = () => {
         </div>
       </div>
       <div className={Styles.content}>
-        {!questionList.length && <Empty description="暂无数据" />}
+        {loading && (
+          <div className={Styles.spin}>
+            <Spin />
+          </div>
+        )}
+        {!loading && !questionList.length && <Empty description="暂无数据" />}
         {questionList.length > 0 &&
-          questionList.map((question) => {
+          questionList.map((question: any) => {
             const { _id } = question;
             return <QuestionCard key={_id} {...question} />;
           })}

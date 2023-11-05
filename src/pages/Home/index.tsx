@@ -2,6 +2,7 @@ import { useNavigate } from "react-router-dom";
 import Styles from "./index.module.scss";
 import { Button, Typography } from "antd";
 import { MANAGE_INDEX_PATHNAME } from "../../router";
+import { useEffect } from "react";
 
 const { Title, Paragraph } = Typography;
 

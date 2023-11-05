@@ -6,16 +6,32 @@ import {
   StarOutlined,
   DeleteOutlined,
 } from "@ant-design/icons";
-import { Button, Space } from "antd";
+import { Button, Space, message } from "antd";
+import { createQuestion } from "../../api";
+import { useRequest } from "ahooks";
 
 const ManageLayout: React.FC = () => {
   const jumpUrl = useNavigate();
   const { pathname } = useLocation();
 
+  const { loading, run: handleCreateClick } = useRequest(createQuestion, {
+    manual: true,
+    onSuccess(res) {
+      message.success("创建成功");
+      jumpUrl(`/question/edit/${res.id}`);
+    },
+  });
+
   return (
     <div className={Styles.wrapper}>
       <div className={Styles.left}>
-        <Button type="primary" size="large" icon={<PlusOutlined />}>
+        <Button
+          type="primary"
+          size="large"
+          icon={<PlusOutlined />}
+          loading={loading}
+          onClick={handleCreateClick}
+        >
           创建问卷
         </Button>
         <Space direction="vertical" className={Styles.options}>

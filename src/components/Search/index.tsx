@@ -11,12 +11,19 @@ const Search: React.FC = () => {
   const [searchParams] = useSearchParams();
   const [value, setValue] = useState("");
 
-  const onSearch = (value: string) => {
-    value &&
-      jumpUrl({
+  const searchJumpUrl = (value: string) => {
+    if (!value) {
+      return pathname;
+    } else {
+      return {
         pathname,
         search: `${SEARCH_PARAM_KEY}=${value}`,
-      });
+      };
+    }
+  };
+
+  const onSearch = (value: string) => {
+    jumpUrl(searchJumpUrl(value));
   };
 
   useEffect(() => {

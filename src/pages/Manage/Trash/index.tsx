@@ -1,47 +1,15 @@
-import { useState } from "react";
 import { IQuestionCardInfo } from "../../../types";
-import { Typography, Empty, Tag } from "antd";
+import { Typography, Empty, Tag, Spin } from "antd";
 import Styles from "./index.module.scss";
 import Table, { ColumnsType } from "antd/es/table";
 import Search from "../../../components/Search";
+import useLoadQuestionListData from "../../../hooks/useLoadQuestionListData";
 
 const { Title } = Typography;
 
 const Trash: React.FC = () => {
-  const [questionList, setQuestionList] = useState<IQuestionCardInfo[]>([
-    {
-      _id: "001",
-      title: "问卷1",
-      isPublished: false,
-      isStar: true,
-      answerCount: 10,
-      createAt: "2020-02-28",
-    },
-    {
-      _id: "002",
-      title: "问卷2",
-      isPublished: true,
-      isStar: true,
-      answerCount: 10,
-      createAt: "2020-02-28",
-    },
-    {
-      _id: "003",
-      title: "问卷3",
-      isPublished: false,
-      isStar: true,
-      answerCount: 10,
-      createAt: "2020-02-28",
-    },
-    {
-      _id: "004",
-      title: "问卷4",
-      isPublished: false,
-      isStar: true,
-      answerCount: 10,
-      createAt: "2020-02-28",
-    },
-  ]);
+  const { data = {}, loading } = useLoadQuestionListData({ isDeleted: true });
+  const { list: questionList = [], total: totalNumber = 0 } = data;
 
   const tableColums: ColumnsType<IQuestionCardInfo> = [
     {
@@ -80,7 +48,12 @@ const Trash: React.FC = () => {
         </div>
       </div>
       <div className={Styles.content}>
-        {questionList.length === 0 && <Empty description="暂无数据" />}
+        {loading && (
+          <div className={Styles.spin}>
+            <Spin />
+          </div>
+        )}
+        {!loading && !questionList.length && <Empty description="暂无数据" />}
         {questionList.length > 0 && (
           <Table
             dataSource={questionList}

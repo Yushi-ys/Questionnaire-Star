@@ -1,7 +1,11 @@
+import { Outlet } from "react-router-dom";
+
 const QuestionLayout: React.FC = () => {
   return (
     <>
-      <div>QuestionLayout</div>
+      <div>
+        <Outlet />
+      </div>
     </>
   );
 };

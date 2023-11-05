@@ -62,7 +62,7 @@ const QuestionCard: React.FC<IQuestionCardInfo> = (props) => {
               icon={<LineChartOutlined />}
               type="text"
               size="small"
-              onClick={() => jumpUrl(`/question/edit/${_id}`)}
+              onClick={() => jumpUrl(`/question/statistics/${_id}`)}
               disabled={isPublished}
             >
               数据统计

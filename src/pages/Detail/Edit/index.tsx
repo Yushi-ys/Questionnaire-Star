@@ -1,10 +1,11 @@
+import useLoadQuestionData from "../../../hooks/useLoadQuestionData";
+
 const Edit: React.FC = () => {
-    return (
-      <>
-        <div>Edit</div>
-      </>
-    );
-  };
-  
-  export default Edit;
-  
+  const { loading, dataSource } = useLoadQuestionData();
+
+  return (
+    <>{loading ? <span>加载中...</span> : <div>{JSON.stringify(dataSource)}</div>}</>
+  );
+};
+
+export default Edit;
