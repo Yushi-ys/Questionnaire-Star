@@ -3,6 +3,7 @@ import { IQuestionCardInfo } from "../../../types";
 import { Typography, Empty, Tag } from "antd";
 import Styles from "./index.module.scss";
 import Table, { ColumnsType } from "antd/es/table";
+import Search from "../../../components/Search";
 
 const { Title } = Typography;
 
@@ -75,7 +76,7 @@ const Trash: React.FC = () => {
           <Title level={3}>回收站</Title>
         </div>
         <div className={Styles.right}>
-          <h3>search</h3>
+          <Search />
         </div>
       </div>
       <div className={Styles.content}>

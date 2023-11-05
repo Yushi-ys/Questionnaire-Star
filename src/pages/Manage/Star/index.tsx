@@ -3,6 +3,7 @@ import { Typography, Empty } from "antd";
 import Styles from "./index.module.scss";
 import { IQuestionCardInfo } from "../../../types";
 import QuestionCard from "../../../components/QuestionCard";
+import Search from "../../../components/Search";
 
 const { Title } = Typography;
 
@@ -32,7 +33,7 @@ const Star: React.FC = () => {
           <Title level={3}>星标问卷</Title>
         </div>
         <div className={Styles.right}>
-          <h3>search</h3>
+          <Search />
         </div>
       </div>
       <div className={Styles.content}>

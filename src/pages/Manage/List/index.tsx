@@ -3,6 +3,7 @@ import { Empty, Typography } from "antd";
 import QuestionCard from "../../../components/QuestionCard";
 import Styles from "./index.module.scss";
 import { IQuestionCardInfo } from "../../../types";
+import Search from "../../../components/Search";
 
 const { Title } = Typography;
 
@@ -49,7 +50,7 @@ const List: React.FC = () => {
           <Title level={3}>我的问卷</Title>
         </div>
         <div className={Styles.right}>
-          <h3>search</h3>
+          <Search />
         </div>
       </div>
       <div className={Styles.content}>

@@ -14,6 +14,11 @@ import Star from "../pages/Manage/Star";
 import Edit from "../pages/Detail/Edit";
 import Statistics from "../pages/Detail/Statistics";
 
+export const HOME_PATHNAME = '/'
+export const LOGIN_PATHNAME = '/login'
+export const REGISTER_PATHNAME = '/register'
+export const MANAGE_INDEX_PATHNAME = '/manage/list'
+
 const router = createBrowserRouter([
   {
     path: "/",
