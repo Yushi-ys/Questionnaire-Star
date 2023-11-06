@@ -1,8 +1,13 @@
-import { Form, Input, Checkbox, Button, Space, Typography } from "antd";
+import { Form, Input, Button, Space, Typography, message } from "antd";
 import { UserAddOutlined } from "@ant-design/icons";
 import { ILogin } from "../../types";
 import Styles from "./index.module.scss";
-import { CSSProperties } from "react";
+import { CSSProperties, useState } from "react";
+import { login } from "../../api";
+import { useRequest } from "ahooks";
+import { useNavigate } from "react-router-dom";
+import { MANAGE_INDEX_PATHNAME } from "../../router";
+import { USER_TOKEN } from "../../constant";
 
 const { Title } = Typography;
 
@@ -11,10 +16,26 @@ const InputStyle: CSSProperties = {
 };
 
 const Login: React.FC = () => {
-  const onSubmit = (values: ILogin) => {
-    const { username, password, remember } = values;
-    console.log(username, password, remember);
+  const jumpUrl = useNavigate();
+  // 登陆成功之后，会有个定时器的跳转，在这期间不可以再次点击 button
+  const [btnStatu, setBtnStatu] = useState(false);
+  const onSubmit = async (values: ILogin) => {
+    const { username, password } = values;
+    return await login(username, password);
   };
+
+  const { loading: loginLoading, run: onLogin } = useRequest(onSubmit, {
+    manual: true,
+    onSuccess(result) {
+      const { token } = result;
+      localStorage.setItem(USER_TOKEN, token);
+      message.success("登陆成功, 即将跳转首页");
+      setBtnStatu(true);
+      setTimeout(() => {
+        jumpUrl(MANAGE_INDEX_PATHNAME);
+      }, 1000);
+    },
+  });
 
   return (
     <div className={Styles.container}>
@@ -33,7 +54,7 @@ const Login: React.FC = () => {
         style={{ maxWidth: 600 }}
         initialValues={{ remember: true }}
         autoComplete="off"
-        onFinish={onSubmit}
+        onFinish={onLogin}
       >
         <Form.Item<ILogin>
           label="用户名"
@@ -51,17 +72,16 @@ const Login: React.FC = () => {
           <Input.Password style={InputStyle} />
         </Form.Item>
 
-        <Form.Item<ILogin>
-          name="remember"
-          valuePropName="checked"
-          wrapperCol={{ offset: 8, span: 16 }}
-        >
-          <Checkbox>记住我</Checkbox>
-        </Form.Item>
-
         <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
-          <Button type="primary" htmlType="submit">
-            登陆
+          <Button
+            type="primary"
+            htmlType="submit"
+            block
+            style={InputStyle}
+            loading={loginLoading}
+            disabled={btnStatu}
+          >
+            立即登陆
           </Button>
         </Form.Item>
       </Form>

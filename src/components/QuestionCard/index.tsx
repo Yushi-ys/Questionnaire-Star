@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { IQuestionCardInfo } from "../../types";
 import {
@@ -11,11 +11,27 @@ import {
 } from "@ant-design/icons";
 import { Button, Space, Divider, Tag, Popconfirm } from "antd";
 import Styles from "./index.module.scss";
+import { updateQuestion } from "../../api";
+import { useRequest } from "ahooks";
 
 const QuestionCard: React.FC<IQuestionCardInfo> = (props) => {
   const jumpUrl = useNavigate();
+  const [deleteId, setDeleteId] = useState<string>();
 
   const { _id, answerCount, createAt, isPublished, isStar, title } = props;
+
+  const onDelete = async (id: string) => {
+    await updateQuestion(id, { isDeleted: true });
+  };
+
+  const { loading, run: deleteQuestion } = useRequest(onDelete, {
+    manual: true,
+    onSuccess() {
+      setDeleteId(_id);
+    },
+  });
+
+  if (deleteId === _id) return <></>;
 
   return (
     <div className={Styles.container}>
@@ -89,9 +105,9 @@ const QuestionCard: React.FC<IQuestionCardInfo> = (props) => {
               title="确定删除该问卷?"
               okText="确定"
               cancelText="取消"
-              onConfirm={() => {}}
+              onConfirm={() => deleteQuestion(_id)}
             >
-              <Button type="text" icon={<DeleteOutlined />}>
+              <Button type="text" icon={<DeleteOutlined />} loading={loading}>
                 删除
               </Button>
             </Popconfirm>

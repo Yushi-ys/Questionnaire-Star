@@ -4,6 +4,7 @@ import { Outlet } from "react-router-dom";
 import Styles from "./index.module.scss";
 import Logo from "../../components/Logo";
 import UserInfo from "../../components/UserInfo";
+import { USER_NAME } from "../../constant";
 
 const MainLayout: React.FC = () => {
   return (
@@ -21,7 +22,7 @@ const MainLayout: React.FC = () => {
           <Outlet />
         </Content>
       </Layout>
-      <Footer className={Styles.footer}>Created By Yushi</Footer>
+      <Footer className={Styles.footer}>Created By {USER_NAME}</Footer>
     </Layout>
   );
 };

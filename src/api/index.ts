@@ -32,7 +32,7 @@ export async function updateQuestion(
   opt: { [key: string]: any }
 ): Promise<ResDataType> {
   const url = `/api/question/${id}`;
-  const data = (await axios.patch(url, opt)) as ResDataType;
+  const data = (await axios.get(url, opt)) as ResDataType;
   return data;
 }
 
@@ -45,7 +45,34 @@ export async function duplicateQuestion(id: string): Promise<ResDataType> {
 
 // 批量彻底删除
 export async function deleteQuestions(ids: string[]): Promise<ResDataType> {
-  const url = "/api/question";
+  const url = "/api/question/deleteBatch";
   const data = (await axios.delete(url, { data: { ids } })) as ResDataType;
+  return data;
+}
+
+// 获取用户信息
+export async function getUerInfo(): Promise<ResDataType> {
+  const url = "/api/user/info";
+  const data = (await axios.get(url)) as ResDataType;
+  return data;
+}
+
+// 注册
+export async function register(
+  username: string,
+  password: string
+): Promise<ResDataType> {
+  const url = "/api/user/register";
+  const data = (await axios.post(url, { username, password })) as ResDataType;
+  return data;
+}
+
+// 登陆
+export async function login(
+  username: string,
+  password: string
+): Promise<ResDataType> {
+  const url = "/api/user/login";
+  const data = (await axios.post(url, { username, password })) as ResDataType;
   return data;
 }

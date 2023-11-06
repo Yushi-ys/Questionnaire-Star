@@ -25,13 +25,14 @@ const useLoadQuestionListData = (
     });
   };
 
-  const { data, loading } = useRequest(getData, {
+  const { data, loading, refresh } = useRequest(getData, {
     refreshDeps: [searchParams], // 依赖项
   });
 
   return {
     data,
     loading,
+    refresh
   };
 };
 
